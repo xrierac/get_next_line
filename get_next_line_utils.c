@@ -62,3 +62,34 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if ((char)c == '\0')
+		return ((char *)s);
+	return (0);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*str;
+	int	i;
+
+	i = 0;
+	str = malloc(ft_strlen(s) + 1);
+	if (!str)
+		return (0);
+	while (s[i])
+	{
+		str[i] = (char)s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}

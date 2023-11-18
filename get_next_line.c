@@ -14,15 +14,16 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = NULL;
-	ssize_t		size_line;
+	static char	*buffer[MAX_FD + 1];
 	char		*line;
 
-	if (!buffer)
-	{
-		buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-		if (!buffer)
-			return (0);
+	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE < 1)
+		return (NULL);
+	if (*buffer[fd] == 0)
+		*buffer[ft_strdup("")];
+	line = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!line)
+		return (NULL);
 	}
 	line = get_line(buffer);
 	while (line[ft_strlen(line) - 1] != '\n' && !line)
