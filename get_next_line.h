@@ -19,6 +19,10 @@
 #  define BUFFER_SIZE 10
 # endif
 
+# ifndef FD_MAX
+#  define FD_MAX 250
+# endif
+
 char	*get_next_line(int fd);
 char	*read_file(char *str, int fd);
 
