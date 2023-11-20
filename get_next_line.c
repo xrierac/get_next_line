@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:04 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/20 12:33:15 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:39:48 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -34,54 +34,49 @@ int	find_new_line(char *str)
 	return (-1);
 }
 
-char	*new_line(char **storage, int fd, char *read_chunk)
+char	*next_line(int fd, char *temp)
 {
-	int		new_line_index;
+	ssize_t	value;
+	int		nl_index;
+	char	*new_str;
 
-	new_line_index = -1;
-	while (new_line_index == -1)
+	nl_index = -1;
+	new_str = malloc(BUFFER_SIZE + 1);
+	if (!new_str)
+		return (NULL);
+	while (nl_index == -1)
 	{
-		new_line_index = find_new_line(storage[fd]);
-		if (new_line_index == -1)
+		nl_index = find_new_line(temp);
+		if (nl_index == -1)
 		{
-			read_chunk = read_line(read_chunk, fd);
-			if (read_chunk == NULL)
+			value = read(fd, new_str, BUFFER_SIZE);
+			if (value <= 0)
+			{
+				free(new_str);
 				return (NULL);
-			storage[fd] = ft_strjoin(storage[fd], read_chunk);
-//			printf("HOLA");
+			}
+			temp = ft_strjoin(temp, new_str);
 		}
 		else
-		{
-			printf("%d", new_line_index);
-			read_chunk = ft_substr(storage[fd], 0, (size_t)new_line_index + 1);
-//			printf("%s", str);
-			return (read_chunk);
-		}
+			free(new_str);
 	}
-	return (read_chunk);
+	return (temp);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*storage[FD_MAX + 1];
-	char		*read_chunk;
-	char		*line;
+	char		*temp;
+	char		*result;
 
 	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1)
 		return (NULL);
 	if (storage[fd] == 0)
 		storage[fd] = ft_strdup("");
-	read_chunk = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!read_chunk)
+	temp = next_line(fd, storage[fd]);
+	if (temp == NULL)
 		return (NULL);
-	line = new_line(storage, fd, read_chunk);
-	if (line == NULL)
-	{
-		free(read_chunk);
-		free(storage[fd]);
-		return (NULL);
-	}
-	storage[fd] =  storage[fd] + ft_strlen(line) + BUFFER_SIZE;
-	free(read_chunk);
-	return (line);
+	result = ft_substr(temp, 0, (size_t)find_new_line(temp) + 1);
+	storage[fd] = temp + ft_strlen(result);
+	return (result);
 }
