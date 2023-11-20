@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:28:06 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/16 15:22:40 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:34:48 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strchr(const char *s, int c)
 char	*ft_strdup(const char *s)
 {
 	char	*str;
-	int	i;
+	int		i;
 
 	i = 0;
 	str = malloc(ft_strlen(s) + 1);
@@ -56,7 +56,9 @@ char	*ft_strdup(const char *s)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*substring;
+	size_t			i;
 
+	i = 0;
 	if (!s || start >= ft_strlen(s) || len == 0)
 		return (ft_strdup(""));
 	if ((len + start) > ft_strlen(s))
@@ -64,50 +66,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	substring = malloc(sizeof(char) * (len + 1));
 	if (!substring)
 		return (0);
-	ft_memmove(substring, &s[start], len);
+	while (i < len)
+	{
+		substring[i] = s[start + i];
+		i++;
+	}
 	substring[len] = '\0';
 	return (substring);
-}
-
-void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	unsigned char		*dst2;
-	const unsigned char	*src2;
-	int			i;
-
-	i = len - 1;
-	if (dst > src && (dst - src) <= i)
-	{
-		dst2 = dst;
-		src2 = src;
-		while (i >= 0)
-		{
-			dst2[i] = src2[i];
-			i--;
-		}
-	}
-	else
-		return (ft_memcpy(dst, src, len));
-	return (dst);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	unsigned char		*dst2;
-	const unsigned char	*src2;
-
-	if (dst == '\0' && src == '\0')
-		return (dst);
-	dst2 = dst;
-	src2 = src;
-	while (n > 0)
-	{
-		*dst2 = *src2;
-		n--;
-		dst2++;
-		src2++;
-	}
-	return (dst);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
