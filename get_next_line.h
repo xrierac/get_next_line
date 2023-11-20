@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:38:40 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/16 15:22:42 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/20 09:36:27 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # endif
 
 # ifndef FD_MAX
-#  define FD_MAX 250
+#  define FD_MAX 256
 # endif
 
 char	*get_next_line(int fd);
