@@ -9,7 +9,6 @@
 /*   Updated: 2023/11/20 14:39:48 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
 #include "get_next_line.h"
 
 char	*read_line(char *str, int fd)
@@ -65,18 +64,16 @@ char	*next_line(int fd, char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage[FD_MAX + 1];
-	char		*temp;
+	static char	*cache[FD_MAX + 1];
+	char		*read_return;
 	char		*result;
 
 	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1)
 		return (NULL);
-	if (storage[fd] == 0)
-		storage[fd] = ft_strdup("");
-	temp = next_line(fd, storage[fd]);
-	if (temp == NULL)
+	read_return = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (read_return == NULL)
 		return (NULL);
-	result = ft_substr(temp, 0, (size_t)find_new_line(temp) + 1);
-	storage[fd] = temp + ft_strlen(result);
+	if (cache[fd] == 0)
+		cache[fd] = ft_strdup("");
 	return (result);
 }
