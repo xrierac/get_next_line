@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:38:40 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/20 14:39:58 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/21 14:57:54 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,12 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*read_file(char *str, int fd);
-char	*new_line(char **storage, int fd, char *read_chunk);
-int		find_new_line(char *str);
+char	*next_line(int fd, char *read_return, char *cache);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	*ft_memmove(void *dst, const void *src, size_t len);
-void	*ft_memcpu(void *dst, const void *src, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
-
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	*ft_memmove(void *dst, const void *src, size_t len);
 #endif

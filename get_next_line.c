@@ -6,74 +6,56 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:04 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/20 14:39:48 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:37:26 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-
-char	*read_line(char *str, int fd)
+#include <stdio.h>
+char	*next_line(int fd, char *read_return, char *cache)
 {
-	ssize_t	value;
+	ssize_t	bytes_read;
+	char	*tmp;
 
-	value = read(fd, str, BUFFER_SIZE);
-	if (value <= 0)
-		return (NULL);
-	return (str);
-}
-
-int	find_new_line(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\n' && str[i])
-		i++;
-	if (str[i] == '\n')
-		return (i);
-	return (-1);
-}
-
-char	*next_line(int fd, char *temp)
-{
-	ssize_t	value;
-	int		nl_index;
-	char	*new_str;
-
-	nl_index = -1;
-	new_str = malloc(BUFFER_SIZE + 1);
-	if (!new_str)
-		return (NULL);
-	while (nl_index == -1)
+	while (!ft_strchr(cache, '\n'))
 	{
-		nl_index = find_new_line(temp);
-		if (nl_index == -1)
+		bytes_read = read(fd, read_return, BUFFER_SIZE);
+		if (bytes_read <= 0)
 		{
-			value = read(fd, new_str, BUFFER_SIZE);
-			if (value <= 0)
-			{
-				free(new_str);
-				return (NULL);
-			}
-			temp = ft_strjoin(temp, new_str);
+			free(cache);
+			return (NULL);
 		}
-		else
-			free(new_str);
+		read_return[bytes_read] = 0;
+		tmp = cache;
+		cache = ft_strjoin(cache, read_return);
+		free(tmp);
 	}
-	return (temp);
+	return (cache);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*cache[FD_MAX + 1];
+	static char	*cache;
 	char		*read_return;
 	char		*result;
+	char		*tmp;
 
-	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1)
+	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1 || !fd)
 		return (NULL);
 	read_return = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (read_return == NULL)
 		return (NULL);
-	if (cache[fd] == 0)
-		cache[fd] = ft_strdup("");
+	if (cache == 0)
+		cache = ft_strdup("");
+	cache = next_line(fd, read_return, cache);
+	if (cache == NULL)
+	{
+		free(read_return);
+		return (cache);
+	}
+	result = ft_substr(cache, 0, ft_strchr(cache, '\n') - cache + 1);
+	tmp = ft_strdup(ft_strchr(cache, '\n') + 1);
+	free(cache);
+	cache = tmp;
+	free(read_return);
 	return (result);
 }
