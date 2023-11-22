@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:28:06 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/22 13:01:23 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:57:36 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strdup(const char *s)
 	i = 0;
 	str = malloc(ft_strlen(s) + 1);
 	if (!str)
-		return (0);
+		return (NULL);
 	while (s[i])
 	{
 		str[i] = (char)s[i];
@@ -65,7 +65,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = ft_strlen(s) - start;
 	substring = malloc(sizeof(char) * (len + 1));
 	if (!substring)
-		return (0);
+		return (NULL);
 	while (i < len)
 	{
 		substring[i] = s[start + i];
@@ -87,7 +87,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
-		return (0);
+		return (NULL);
 	while (s1[i])
 	{
 		str[i] = (char)s1[i];
