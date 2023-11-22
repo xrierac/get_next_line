@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:38:40 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/21 14:57:54 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:04:46 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,4 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-void	*ft_memmove(void *dst, const void *src, size_t len);
 #endif
