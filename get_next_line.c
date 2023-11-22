@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:04 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/22 12:57:09 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:02:54 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*next_line(int fd, char *read_return, char *cache)
 	ssize_t	bytes_read;
 	char	*tmp;
 
+	if (cache == NULL)
+		return (NULL);
 	while (!ft_strchr(cache, '\n'))
 	{
 		bytes_read = read(fd, read_return, BUFFER_SIZE);
@@ -31,6 +33,8 @@ char	*next_line(int fd, char *read_return, char *cache)
 		tmp = cache;
 		cache = ft_strjoin(cache, read_return);
 		free(tmp);
+		if (cache == NULL)
+			return (NULL);
 	}
 	return (cache);
 }
@@ -39,7 +43,6 @@ char	*get_next_line(int fd)
 {
 	static char	*cache;
 	char		*read_return;
-	char		*result;
 	char		*tmp;
 
 	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1)
@@ -57,9 +60,9 @@ char	*get_next_line(int fd)
 		cache = 0;
 		return (tmp);
 	}
-	result = ft_substr(cache, 0, ft_strchr(cache, '\n') - cache + 1);
+	read_return = ft_substr(cache, 0, ft_strchr(cache, '\n') - cache + 1);
 	tmp = ft_strdup(ft_strchr(cache, '\n') + 1);
 	free(cache);
 	cache = tmp;
-	return (result);
+	return (read_return);
 }
