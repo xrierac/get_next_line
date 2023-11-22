@@ -6,11 +6,12 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:04 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/21 18:37:26 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:57:09 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "get_next_line.h"
-#include <stdio.h>
+
 char	*next_line(int fd, char *read_return, char *cache)
 {
 	ssize_t	bytes_read;
@@ -19,6 +20,8 @@ char	*next_line(int fd, char *read_return, char *cache)
 	while (!ft_strchr(cache, '\n'))
 	{
 		bytes_read = read(fd, read_return, BUFFER_SIZE);
+		if (bytes_read == 0 && *cache != '\0')
+			return (cache);
 		if (bytes_read <= 0)
 		{
 			free(cache);
@@ -39,7 +42,7 @@ char	*get_next_line(int fd)
 	char		*result;
 	char		*tmp;
 
-	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1 || !fd)
+	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1)
 		return (NULL);
 	read_return = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (read_return == NULL)
@@ -47,15 +50,16 @@ char	*get_next_line(int fd)
 	if (cache == 0)
 		cache = ft_strdup("");
 	cache = next_line(fd, read_return, cache);
-	if (cache == NULL)
+	free(read_return);
+	if (cache == NULL || !ft_strchr(cache, '\n'))
 	{
-		free(read_return);
-		return (cache);
+		tmp = cache;
+		cache = 0;
+		return (tmp);
 	}
 	result = ft_substr(cache, 0, ft_strchr(cache, '\n') - cache + 1);
 	tmp = ft_strdup(ft_strchr(cache, '\n') + 1);
 	free(cache);
 	cache = tmp;
-	free(read_return);
 	return (result);
 }
