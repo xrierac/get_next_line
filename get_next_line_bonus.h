@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:38:40 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/22 13:41:44 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:19:51 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@
 #  define FD_MAX 256
 # endif
 
+char	*get_cache(char *cache, char *read_return, int fd);
 char	*get_next_line(int fd);
 char	*next_line(int fd, char *read_return, char *cache);
+char	*free_mem(char *res, char *tmp);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-void	*ft_memmove(void *dst, const void *src, size_t len);
+
 #endif
