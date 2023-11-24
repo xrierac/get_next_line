@@ -6,7 +6,7 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:04 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/23 18:32:27 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:37:33 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*get_next_line(int fd)
 	char		*tmp;
 	char		*res;
 
+	tmp = NULL;
 	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE < 1)
 		return (NULL);
 	read_return = malloc(sizeof(char) * BUFFER_SIZE + 1);
@@ -71,16 +72,15 @@ char	*get_next_line(int fd)
 		return (NULL);
 	cache = get_cache(cache, read_return, fd);
 	if (cache == NULL || !ft_strchr(cache, '\n'))
+		res = cache;
+	else
 	{
-		tmp = cache;
-		cache = NULL;
-		return (tmp);
+		res = ft_substr(cache, 0, ft_strchr(cache, '\n') - cache + 1);
+		tmp = ft_strdup(ft_strchr(cache, '\n') + 1);
+		if (res == NULL || tmp == NULL)
+			res = free_mem(res, tmp);
+		free(cache);
 	}
-	res = ft_substr(cache, 0, ft_strchr(cache, '\n') - cache + 1);
-	tmp = ft_strdup(ft_strchr(cache, '\n') + 1);
-	free(cache);
-	if (res == NULL || tmp == NULL)
-		res = free_mem(res, tmp);
 	cache = tmp;
 	return (res);
 }
