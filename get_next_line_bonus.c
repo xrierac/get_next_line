@@ -6,11 +6,11 @@
 /*   By: xriera-c <xriera-c@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:04 by xriera-c          #+#    #+#             */
-/*   Updated: 2023/11/23 18:19:12 by xriera-c         ###   ########.fr       */
+/*   Updated: 2023/11/27 18:55:45 by xriera-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_cache(char *cache, char *read_return, int fd)
 {
@@ -59,7 +59,7 @@ char	*next_line(int fd, char *read_return, char *cache)
 
 char	*get_next_line(int fd)
 {
-	static char	*cache[FD_MAX];
+	static char	*cache[FD_MAX + 1];
 	char		*read_return;
 	char		*tmp;
 	char		*res;
